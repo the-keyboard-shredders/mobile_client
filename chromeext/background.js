@@ -10,7 +10,7 @@ let contentTabId;
 
 //gets tabID from content
 chrome.runtime.onMessage.addListener(function(msg, sender) {
-  if (msg.from == "content") {
+  if (msg.from === "content") {
     contentTabId = sender.tab.id;
     console.log(contentTabId);
   }
