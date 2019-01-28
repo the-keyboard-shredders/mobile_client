@@ -11,17 +11,13 @@ const grabDom = () => {
     contentArr.push(body[i].innerText);
   }
   const content = contentArr.join("\n");
-
   return { url, title, content };
 };
 
-chrome.runtime.sendMessage({ from: "content" }); //first, tell the background page that this is the tab that wants to receive the messages.
-
-chrome.runtime.onMessage.addListener(function(msg) {
-  if (msg.method == "triggerDOM") {
-    //get the dom
-    let Dom = grabDom();
-
-    chrome.runtime.sendMessage({ title: "fullDOM", content: Dom });
-  }
+const Dom = grabDom();
+console.log("content Dom", Dom);
+chrome.runtime.sendMessage({
+  url: Dom.url,
+  title: Dom.title,
+  content: Dom.content
 });
