@@ -1,9 +1,9 @@
 const Dom = {};
 chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
-  Dom["url"] = msg.url;
-  Dom["title"] = msg.title;
-  Dom["content"] = msg.content;
-  console.log("bg dom", Dom);
+  Dom['url'] = msg.url;
+  Dom['title'] = msg.title;
+  Dom['content'] = msg.content;
+  console.log('bg dom', Dom);
 });
 
 chrome.browserAction.onClicked.addListener(function() {
@@ -22,16 +22,16 @@ chrome.browserAction.onClicked.addListener(function() {
       content
     }
   });
-  fetch("http://localhost:4000/", {
-    method: "POST",
+  fetch('http://headless-capstone-1810.herokuapp.com/', {
+    method: 'POST',
     headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json"
+      Accept: 'application/json',
+      'Content-Type': 'application/json'
     },
     body: queryJSON
   })
     .then(response => {
-      console.log("res to query\n\n\n", response);
+      console.log('res to query\n\n\n', response.json());
     })
     .catch(err => {
       console.log(err);
