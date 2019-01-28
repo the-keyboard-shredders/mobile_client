@@ -7,25 +7,33 @@ chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
 });
 
 chrome.browserAction.onClicked.addListener(function() {
-  console.log("title: ", Dom.title);
-  console.log("content: ", Dom.content);
-  fetch("http://localhost:4000/graphql", {
-    credentials: "include",
-    headers: {
-      accept: "application/json",
-      "content-type": "application/json"
-    },
-    referrer: "http://localhost:4000/",
-    referrerPolicy: "origin",
-    body:
-      '{"query":"mutation{\\naddArticle(title:\\"from chrome ext\\" content:\\"some content\\"){\\n  title\\n    content\\n\\t}\\n}","variables":null}',
+  const title = Dom.title;
+  const content = Dom.content;
+  const queryJSON = JSON.stringify({
+    query: `
+        mutation($title: String $content: String) {
+          addArticle(title: $title, content: $content){
+            title
+          }
+        }
+    `,
+    variables: {
+      title,
+      content
+    }
+  });
+  fetch("http://localhost:4000/", {
     method: "POST",
-    mode: "cors"
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json"
+    },
+    body: queryJSON
   })
     .then(response => {
       console.log("res to query\n\n\n", response);
     })
-    .catch(e => {
-      console.log(e);
+    .catch(err => {
+      console.log(err);
     });
 });
