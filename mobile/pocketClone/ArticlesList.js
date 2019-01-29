@@ -6,13 +6,27 @@ import { retrieveTitles } from "./store/reducer";
 class ArticlesList extends React.Component {
   async componentDidMount() {
     await this.props.updateTitlesList();
-    console.log(this.props.allTitles);
+    // console.log(this.props.allTitles);
   }
 
   render() {
     return (
       <View style={styles.container}>
-        <Text> Article Titles will go here</Text>
+        <Text>Our Titles will go here</Text>
+        {!this.props.allTitles ? (
+          <Text>Nothing to read yet</Text>
+        ) : (
+          <Text>
+            {this.props.allTitles.data.articles.map((title, idx) => {
+              console.log("show me title obj", title);
+              return (
+                <Text key={idx}>
+                  {idx},{title.title}
+                </Text>
+              );
+            })}
+          </Text>
+        )}
       </View>
     );
   }
