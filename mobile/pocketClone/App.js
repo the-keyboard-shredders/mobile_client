@@ -1,18 +1,23 @@
 import React from "react";
-import { StyleSheet, View, Text } from "react-native";
+import { StyleSheet, View, Text, AsyncStorage } from "react-native";
 import AppNavigator from "./AppNavigator";
-import { Provider } from "react-redux";
-import store from "./store/reducer";
+
 import ArticlesList from "./ArticlesList";
-import Test from "./Test";
+
+import {
+  grabFromCloudToStorage,
+  getAllData
+} from "./store/asyncStorageActions";
 
 export default class App extends React.Component {
+  async componentDidMount() {
+    await grabFromCloudToStorage("usersArticles");
+    let articles = await getAllData("usersArticles");
+    console.log("--------our articles are here---------", articles);
+    console.log("-----------------end articles-----------------");
+  }
   render() {
-    return (
-      <Provider store={store}>
-        <ArticlesList />
-      </Provider>
-    );
+    return <ArticlesList />;
   }
 }
 
