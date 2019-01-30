@@ -27,16 +27,20 @@ const ourData = (state = {}, action) => {
 };
 
 //dispatch actions
-export const retrieveTitles = () => dispatch => {
-  return axios
-    .post("https://headless-capstone-1810.herokuapp.com/", {
-      query: "{articles{ title}}"
-    })
 
-    .then(res => {
-      dispatch(grabTitles(res.data));
-    })
-    .catch(console.error.bind(console));
+//retrieves all titles
+export const retrieveTitles = () => async dispatch => {
+  try {
+    let response = await axios.post(
+      "https://headless-capstone-1810.herokuapp.com/",
+      {
+        query: "{articles{ title}}"
+      }
+    );
+    await dispatch(grabTitles(response.data));
+  } catch (error) {
+    console.error.bind(console);
+  }
 };
 
 export default createStore(
