@@ -7,6 +7,10 @@ export default class ArticlesList extends React.Component {
     super(props);
   }
   render() {
+    const { navigation } = this.props;
+    const content = navigation.getParam("content", "Content belongs here");
+    const title = navigation.getParam("title", "title belongs here");
+
     return (
       <ThemeProvider>
         <Button
@@ -18,7 +22,8 @@ export default class ArticlesList extends React.Component {
             })
           }
         />
-        <Text>In Articles List</Text>
+        <Text>{title}</Text>
+        <Text>{content}</Text>
       </ThemeProvider>
     );
   }

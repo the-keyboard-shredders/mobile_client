@@ -8,7 +8,7 @@ export const grabFromCloudToStorage = async (key, response) => {
     let response = await axios.post(
       "https://headless-capstone-1810.herokuapp.com/",
       {
-        query: "{articles{ title}}"
+        query: "{articles{ title, content}}"
       }
     );
 
