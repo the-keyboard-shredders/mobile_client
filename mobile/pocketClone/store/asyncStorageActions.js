@@ -28,7 +28,7 @@ export const getAllData = async key => {
     // Error retrieving data
     console.log(error.message);
   }
-  return articles;
+  return JSON.parse(articles);
 };
 
 //removeItem() - removes item from AsyncStorage

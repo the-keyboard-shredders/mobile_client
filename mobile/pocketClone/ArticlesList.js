@@ -1,14 +1,25 @@
 import React from "react";
-import { StyleSheet, Text, View, Button, AsyncStorage } from "react-native";
-
-import grabFromCloudToStorage from "./store/asyncStorageActions";
+import { StyleSheet, Text, View, AsyncStorage } from "react-native";
+import { Button, ThemeProvider } from "react-native-elements";
 
 export default class ArticlesList extends React.Component {
+  constructor(props) {
+    super(props);
+  }
   render() {
     return (
-      <View>
-        <Text>Nothing else will appear</Text>
-      </View>
+      <ThemeProvider>
+        <Button
+          title="Go Home"
+          onPress={() =>
+            this.props.navigation.navigate("Home", {
+              data: "test dummy",
+              other: "this data here.....yes"
+            })
+          }
+        />
+        <Text>In Articles List</Text>
+      </ThemeProvider>
     );
   }
 }
