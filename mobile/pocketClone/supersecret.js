@@ -1,0 +1,1 @@
+export const iosClientId = '991385538740-ib0daap1867l8rqurp72lo72vscnucop.apps.googleusercontent.com'

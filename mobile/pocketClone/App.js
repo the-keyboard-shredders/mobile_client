@@ -1,6 +1,8 @@
 import React from "react";
 import { StyleSheet, View, Text, AsyncStorage } from "react-native";
 import AppNavigator from "./AppNavigator";
+import login from "./login"
+
 
 export default class App extends React.Component {
   constructor(props) {
@@ -9,7 +11,8 @@ export default class App extends React.Component {
   }
 
   render() {
-    return <AppNavigator />;
+    return <AppNavigator/>  
+    
   }
 }
 
