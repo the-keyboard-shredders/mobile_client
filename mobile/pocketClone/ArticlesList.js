@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, Text, View, AsyncStorage } from "react-native";
+import { StyleSheet, Text, ScrollView } from "react-native";
 import { Button, ThemeProvider } from "react-native-elements";
 
 export default class ArticlesList extends React.Component {
@@ -15,15 +15,12 @@ export default class ArticlesList extends React.Component {
       <ThemeProvider>
         <Button
           title="Go Home"
-          onPress={() =>
-            this.props.navigation.navigate("Home", {
-              data: "test dummy",
-              other: "this data here.....yes"
-            })
-          }
+          onPress={() => this.props.navigation.navigate("Home")}
         />
         <Text>{title}</Text>
-        <Text>{content}</Text>
+        <ScrollView>
+          <Text>{content}</Text>
+        </ScrollView>
       </ThemeProvider>
     );
   }

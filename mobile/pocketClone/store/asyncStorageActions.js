@@ -5,6 +5,9 @@ import axios from "axios";
 //function below will grab from cloud and save in AsyncStorage
 export const grabFromCloudToStorage = async (key, response) => {
   try {
+    // let user = await axios.get("localhost:4000/auth/me");
+    // console.log(user);
+
     let response = await axios.post(
       "https://headless-capstone-1810.herokuapp.com/",
       {
@@ -15,6 +18,7 @@ export const grabFromCloudToStorage = async (key, response) => {
     await AsyncStorage.setItem(key, JSON.stringify(response.data));
   } catch (error) {
     // Error retrieving data
+    console.log(error);
   }
 };
 
