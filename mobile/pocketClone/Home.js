@@ -21,17 +21,8 @@ export default class Home extends React.Component {
   }
 
   render() {
-    const { navigation } = this.props;
-    const data = navigation.getParam("data", "NO-ID");
-    const other = navigation.getParam("other", "some default value");
-
     return (
       <ThemeProvider>
-        <Button
-          title="Go to Articles"
-          onPress={() => this.props.navigation.navigate("ArticlesList")}
-        />
-
         <Text>Titles List</Text>
         <ScrollView>
           <View>
@@ -54,10 +45,6 @@ export default class Home extends React.Component {
             )}
           </View>
         </ScrollView>
-        <Text>data: {JSON.stringify(data)}</Text>
-        <Text>other: {JSON.stringify(other)}</Text>
-
-        <Text> In home screen </Text>
       </ThemeProvider>
     );
   }
