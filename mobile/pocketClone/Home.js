@@ -1,6 +1,6 @@
 import React from "react";
 import { StyleSheet, Text, View, ScrollView } from "react-native";
-import { Button, ThemeProvider, ListItem, CheckBox } from "react-native-elements";
+import { ThemeProvider, ListItem } from "react-native-elements";
 import {
   grabFromCloudToStorage,
   getAllData
@@ -10,44 +10,41 @@ export default class Home extends React.Component {
   constructor() {
     super();
     this.state = {
-      checked: false
+      articleList: []
     };
   }
 
   async componentDidMount() {
-    await grabFromCloudToStorage("usersArticles");
-    let data = await getAllData("usersArticles");
-    let articleData = data.data.articles;
-
-    this.setState({ articleData });
+    const googleId = this.props.googleId;
+    await grabFromCloudToStorage(googleId);
+    const response = await getAllData(googleId);
+    console.log("DATA", response);
+    const articleData = response.data.userArticles;
+    console.log("articledata", articleData);
   }
 
   render() {
-    const{ checked } = this.state
     return (
       <ThemeProvider>
         <Text>Titles List</Text>
         <ScrollView>
-          <View >
+          <View>
             {!this.state.articleData ? (
               <Text> Loading ..... </Text>
             ) : (
               this.state.articleData.map((l, i) => (
                 <ListItem
-
-               
                   key={i}
                   title={l.title}
                   content={l.content}
-                  onPress={() => 
+                  onPress={() =>
                     this.props.navigation.navigate("ArticlesList", {
                       content: l.content,
                       title: l.title
                     })
                   }
-                /> 
-              )) 
-              
+                />
+              ))
             )}
           </View>
         </ScrollView>
@@ -58,7 +55,7 @@ export default class Home extends React.Component {
 
 const styles = StyleSheet.create({
   subtitleView: {
-    flexDirection: 'row',
+    flexDirection: "row",
     paddingLeft: 10,
     paddingTop: 5
   },
