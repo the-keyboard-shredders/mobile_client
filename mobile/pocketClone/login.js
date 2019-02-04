@@ -19,7 +19,8 @@ export default class login extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        {this.state.signedIn ? <Home /> : <LoginPage signIn={this.signIn} />}
+        {/* {this.state.signedIn ? <Home /> : <LoginPage signIn={this.signIn} />} */}
+        <LoginPage signIn={this.signIn} />
       </View>
     );
   }
@@ -35,11 +36,10 @@ export default class login extends React.Component {
       if (result.type === "success") {
         this.setState({
           signedIn: true,
-          name: result.user.name,
-          googleId: result.user.id
+          name: result.user.name
         });
         this.props.navigation.navigate("Home", {
-          googleId: this.state.googleId
+          googleId: result.user.id
         });
       } else {
         console.log("Cancelled");

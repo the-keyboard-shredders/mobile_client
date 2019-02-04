@@ -5,7 +5,6 @@ import {
   grabFromCloudToStorage,
   getAllData
 } from "./store/asyncStorageActions";
-// import { AsyncStorage } from "react-native";
 
 export default class Home extends React.Component {
   constructor() {
@@ -15,13 +14,10 @@ export default class Home extends React.Component {
 
   async componentDidMount() {
     const googleId = this.props.navigation.getParam("googleId");
-    console.log("GOOGLE", googleId);
     await grabFromCloudToStorage(googleId);
     const response = await getAllData(googleId);
-    console.log("RESPONSE", response);
     const articles = JSON.parse(response).data.userArticles;
     this.setState({ articles });
-    console.log("STATE", this.state.articles);
   }
 
   render() {
