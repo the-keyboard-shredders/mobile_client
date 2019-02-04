@@ -19,11 +19,7 @@ export default class login extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        {this.state.signedIn ? (
-          <LoggedInPage name={this.state.name} googleId={this.state.googleId} />
-        ) : (
-          <LoginPage signIn={this.signIn} />
-        )}
+        {this.state.signedIn ? <Home /> : <LoginPage signIn={this.signIn} />}
       </View>
     );
   }
@@ -42,7 +38,9 @@ export default class login extends React.Component {
           name: result.user.name,
           googleId: result.user.id
         });
-        // this.props.navigation.navigate("Home");
+        this.props.navigation.navigate("Home", {
+          googleId: this.state.googleId
+        });
       } else {
         console.log("Cancelled");
       }
@@ -61,14 +59,14 @@ const LoginPage = props => {
   );
 };
 
-const LoggedInPage = props => {
-  return (
-    <View style={styles.container}>
-      <Text style={styles.header}>Welcome:{props.name}</Text>
-      <Home googleId={props.googleId} />
-    </View>
-  );
-};
+// const LoggedInPage = props => {
+//   return (
+//     <View style={styles.container}>
+//       <Text style={styles.header}>Welcome:{props.name}</Text>
+//       <Home googleId={props.googleId} />
+//     </View>
+//   );
+// };
 
 const styles = StyleSheet.create({
   container: {

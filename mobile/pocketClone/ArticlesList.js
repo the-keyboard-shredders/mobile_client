@@ -3,8 +3,8 @@ import { StyleSheet, Text, ScrollView } from "react-native";
 import { Button, ThemeProvider } from "react-native-elements";
 
 export default class ArticlesList extends React.Component {
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
   }
   render() {
     const { navigation } = this.props;

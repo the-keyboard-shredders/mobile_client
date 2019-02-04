@@ -5,22 +5,23 @@ import {
   grabFromCloudToStorage,
   getAllData
 } from "./store/asyncStorageActions";
+// import { AsyncStorage } from "react-native";
 
 export default class Home extends React.Component {
   constructor() {
     super();
-    this.state = {
-      articleList: []
-    };
+    this.state = {};
   }
 
   async componentDidMount() {
-    const googleId = this.props.googleId;
+    const googleId = this.props.navigation.getParam("googleId");
+    console.log("GOOGLE", googleId);
     await grabFromCloudToStorage(googleId);
     const response = await getAllData(googleId);
-    console.log("DATA", response);
-    const articleData = response.data.userArticles;
-    console.log("articledata", articleData);
+    console.log("RESPONSE", response);
+    const articles = JSON.parse(response).data.userArticles;
+    this.setState({ articles });
+    console.log("STATE", this.state.articles);
   }
 
   render() {
@@ -29,14 +30,13 @@ export default class Home extends React.Component {
         <Text>Titles List</Text>
         <ScrollView>
           <View>
-            {!this.state.articleData ? (
+            {!this.state.articles ? (
               <Text> Loading ..... </Text>
             ) : (
-              this.state.articleData.map((l, i) => (
+              this.state.articles.map((l, i) => (
                 <ListItem
                   key={i}
                   title={l.title}
-                  content={l.content}
                   onPress={() =>
                     this.props.navigation.navigate("ArticlesList", {
                       content: l.content,

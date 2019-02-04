@@ -4,7 +4,7 @@ import axios from "axios";
 //function below will grab from cloud and save in AsyncStorage
 export const grabFromCloudToStorage = async googleId => {
   axios({
-    url: "http://192.168.1.4:4000/",
+    url: "http://172.16.23.161:4000/",
     method: "post",
     data: {
       query: `
@@ -26,12 +26,11 @@ export const grabFromCloudToStorage = async googleId => {
     });
 };
 
-//getItem() - grabs data from AsyncStorage
-//function below will send data from AS to app
+// getItem() - grabs data from AsyncStorage
+// function below will send data from AS to app
 export const getAllData = async googleId => {
   try {
     const articles = (await AsyncStorage.getItem(googleId)) || "none";
-    console.log("ARTICLES", articles);
     return articles;
   } catch (error) {
     // Error retrieving data
