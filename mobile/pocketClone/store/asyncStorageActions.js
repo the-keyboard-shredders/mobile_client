@@ -4,7 +4,7 @@ import axios from "axios";
 //function below will grab from cloud and save in AsyncStorage
 export const grabFromCloudToStorage = googleId => {
   axios
-    .post("http://172.16.23.161:4000/", {
+    .post("http://headless-capstone-1810.herokuapp.com/", {
       query: `
          {
           userArticles (googleId: "${googleId}") {
