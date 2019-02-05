@@ -5,21 +5,33 @@ import Expo from "expo";
 import { Google } from "expo";
 import { iosClientId, androidClientId } from "./supersecret";
 import Home from "./Home";
+import { persistGoogleId, isSignedIn } from "./store/asyncStorageActions";
 
 export default class login extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       signedIn: false,
-      name: "",
       googleId: ""
     };
+  }
+
+  async componentDidMount() {
+    const status = await isSignedIn();
+    if (status !== false) {
+      this.setState({
+        signedIn: true,
+        googleId: status
+      });
+      this.props.navigation.navigate("Home", {
+        googleId: status
+      });
+    }
   }
 
   render() {
     return (
       <View style={styles.container}>
-        {/* {this.state.signedIn ? <Home /> : <LoginPage signIn={this.signIn} />} */}
         <LoginPage signIn={this.signIn} />
       </View>
     );
@@ -34,10 +46,13 @@ export default class login extends React.Component {
       });
 
       if (result.type === "success") {
+        persistGoogleId(result.user.id);
         this.setState({
           signedIn: true,
-          name: result.user.name
+          name: result.user.name,
+          googleId: result.user.id
         });
+
         this.props.navigation.navigate("Home", {
           googleId: result.user.id
         });
@@ -58,15 +73,6 @@ const LoginPage = props => {
     </View>
   );
 };
-
-// const LoggedInPage = props => {
-//   return (
-//     <View style={styles.container}>
-//       <Text style={styles.header}>Welcome:{props.name}</Text>
-//       <Home googleId={props.googleId} />
-//     </View>
-//   );
-// };
 
 const styles = StyleSheet.create({
   container: {
