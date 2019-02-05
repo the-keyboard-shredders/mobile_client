@@ -1,10 +1,7 @@
 import React from "react";
-import { StyleSheet, View, Text, AsyncStorage, Button } from "react-native";
-import AppNavigator from "./AppNavigator";
-import Expo from "expo";
+import { StyleSheet, View, Text, Button } from "react-native";
 import { Google } from "expo";
 import { iosClientId, androidClientId } from "./supersecret";
-import Home from "./Home";
 import { persistGoogleId, isSignedIn } from "./store/asyncStorageActions";
 
 export default class login extends React.Component {

@@ -1,9 +1,10 @@
 import React from "react";
 import { StyleSheet, Text, View, ScrollView } from "react-native";
-import { ThemeProvider, ListItem } from "react-native-elements";
+import { ThemeProvider, ListItem, Button } from "react-native-elements";
 import {
   grabFromCloudToStorage,
-  getAllData
+  getAllData,
+  signOut
 } from "./store/asyncStorageActions";
 
 export default class Home extends React.Component {
@@ -16,13 +17,22 @@ export default class Home extends React.Component {
     const googleId = this.props.navigation.getParam("googleId");
     await grabFromCloudToStorage(googleId);
     const response = await getAllData();
-    const articles = JSON.parse(response).data.userArticles;
-    this.setState({ articles });
+    if (response !== "none") {
+      const articles = JSON.parse(response).data.userArticles;
+      this.setState({ articles });
+    }
   }
 
   render() {
     return (
       <ThemeProvider>
+        <Button
+          title="Logout"
+          onPress={() => {
+            signOut();
+            this.props.navigation.navigate("login");
+          }}
+        />
         <Text>Titles List</Text>
         <ScrollView>
           <View>

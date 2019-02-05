@@ -48,13 +48,10 @@ export const isSignedIn = async () => {
   }
 };
 
-//removeItem() - removes item from AsyncStorage
-//TBD
-// const deleteUserId = async () => {
-//   try {
-//     await AsyncStorage.removeItem("userId");
-//   } catch (error) {
-//     // Error retrieving data
-//     console.log(error.message);
-//   }
-// };
+export const signOut = async () => {
+  try {
+    await AsyncStorage.multiRemove(["googleId", "articles"]);
+  } catch (error) {
+    console.log(error);
+  }
+};
