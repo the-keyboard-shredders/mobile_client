@@ -2,9 +2,9 @@ import { AsyncStorage } from "react-native";
 import axios from "axios";
 //setItem() - sets data to AsyncStorage
 //function below will grab from cloud and save in AsyncStorage
-export const grabFromCloudToStorage = googleId => {
-  axios
-    .post("http://headless-capstone-1810.herokuapp.com/", {
+export const grabFromCloudToStorage = async googleId  => {
+  try{
+    const response = await axios.post("https://headless-capstone-1810.herokuapp.com/", {
       query: `
          {
           userArticles (googleId: "${googleId}") {
@@ -15,12 +15,13 @@ export const grabFromCloudToStorage = googleId => {
         }
       `
     })
-    .then(response => {
-      AsyncStorage.setItem("articles", JSON.stringify(response.data));
-    })
-    .catch(err => {
-      console.log(err);
-    });
+    await AsyncStorage.setItem("articles", JSON.stringify(response.data));
+    return response.data
+
+  }catch(err){  
+    console.log(err)
+  }
+
 };
 
 // getItem() - grabs data from AsyncStorage
