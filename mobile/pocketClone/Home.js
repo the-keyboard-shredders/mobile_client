@@ -15,7 +15,7 @@ export default class Home extends React.Component {
   async componentDidMount() {
     const googleId = this.props.navigation.getParam("googleId");
     await grabFromCloudToStorage(googleId);
-    const response = await getAllData(googleId);
+    const response = await getAllData();
     const articles = JSON.parse(response).data.userArticles;
     this.setState({ articles });
   }
