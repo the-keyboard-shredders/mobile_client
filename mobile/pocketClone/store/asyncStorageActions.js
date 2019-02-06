@@ -29,8 +29,7 @@ export const grabFromCloudToStorage = async googleId => {
 // function below will send data from AS to app
 export const getAllData = async googleId => {
   try {
-    const articles = (await AsyncStorage.getItem(googleId)) || "none";
-    console.log("get all Data", articles);
+    const articles = await AsyncStorage.getItem(googleId);
     return articles;
   } catch (error) {
     // Error retrieving data
@@ -45,7 +44,7 @@ export const persistGoogleId = async googleId => {
 export const isSignedIn = async () => {
   try {
     const googleId = await AsyncStorage.getItem("googleId");
-    return JSON.parse(googleId);
+    return googleId;
   } catch (error) {
     return false;
   }

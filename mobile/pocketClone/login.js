@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, View, Text, Button } from "react-native";
+import { StyleSheet, View, Text, Button, Image } from "react-native";
 import { Google } from "expo";
 import { iosClientId, androidClientId } from "./supersecret";
 import { persistGoogleId, isSignedIn } from "./store/asyncStorageActions";
@@ -14,8 +14,9 @@ export default class Login extends React.Component {
   }
 
   async componentDidMount() {
-    const status = await isSignedIn();
-    if (status !== false) {
+    let status = await isSignedIn();
+    if (status) {
+      status = JSON.parse(status);
       this.setState({
         signedIn: true,
         googleId: status
@@ -29,7 +30,9 @@ export default class Login extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <LoginPage signIn={this.signIn} />
+        <Image source={require("./saveforlater.png")} />
+        <Text>Welcome To Save For Later</Text>
+        <Button title="Sign in with Google" onPress={() => this.signIn()} />
       </View>
     );
   }
@@ -61,15 +64,6 @@ export default class Login extends React.Component {
     }
   };
 }
-
-const LoginPage = props => {
-  return (
-    <View>
-      <Text style={styles.header}>Sign in with Google</Text>
-      <Button title="Sign in with Google" onPress={() => props.signIn()} />
-    </View>
-  );
-};
 
 const styles = StyleSheet.create({
   container: {
