@@ -57,15 +57,8 @@ export default class Home extends React.Component {
 
   render() {
     return (
-      <ThemeProvider>
-        <Button
-          title="Logout"
-          onPress={() => {
-            signOut();
-            this.props.navigation.navigate("Login");
-          }}
-        />
-        <Text>Titles List</Text>
+      <ThemeProvider style={styles.container}>
+        <Text style={styles.title}>Titles List</Text>
         {this.state.error ? (
           <Text>You have no articles!</Text>
         ) : (
@@ -86,10 +79,12 @@ export default class Home extends React.Component {
                     <ListItem
                       key={i}
                       title={l.title}
+                      style={styles.list}
                       onPress={() =>
                         this.props.navigation.navigate("Article", {
                           content: l.content,
-                          title: l.title
+                          title: l.title,
+                          url: l.url
                         })
                       }
                     />
@@ -99,21 +94,43 @@ export default class Home extends React.Component {
             </View>
           </ScrollView>
         )}
+        <Button
+          title="Logout"
+          type="outline"
+          style={styles.button}
+          containerStyle={{ borderColor: "black" }}
+          wrapperStyle={{ borderColor: "black" }}
+          onPress={() => {
+            signOut();
+            this.props.navigation.navigate("Login");
+          }}
+        />
       </ThemeProvider>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  subtitleView: {
-    flexDirection: "row",
-    paddingLeft: 10,
-    paddingTop: 5
-  },
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "#F8F8FF",
     alignItems: "center",
     justifyContent: "center"
+  },
+  title: {
+    textAlign: "center",
+    color: "#191970",
+    fontSize: 20,
+    fontWeight: "bold",
+    padding: 2,
+    marginBottom: 15,
+    marginTop: 20
+  },
+  button: {
+    paddingBottom: 20
+  },
+  list: {
+    paddingLeft: 5,
+    paddingRight: 5
   }
 });
