@@ -12,13 +12,7 @@ import {
   getAllData,
   signOut
 } from "./store/asyncStorageActions";
-// import Swipeout from "react-native-swipeout";
 
-// const swipeoutBtns = [
-//   {
-//     text: "Delete"
-//   }
-// ];
 export default class Home extends React.Component {
   constructor() {
     super();
@@ -82,7 +76,6 @@ export default class Home extends React.Component {
                   <Text> Loading ..... </Text>
                 ) : (
                   this.state.article.map(l => (
-                    // <Swipeout right={swipeoutBtns} key={l.id}>
                     <ListItem
                       key={l.id}
                       title={l.title}
@@ -96,7 +89,6 @@ export default class Home extends React.Component {
                         })
                       }
                     />
-                    // </Swipeout>
                   ))
                 )}
               </ScrollView>
