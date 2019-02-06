@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, Text, ScrollView } from "react-native";
+import { StyleSheet, Text, ScrollView, Linking } from "react-native";
 import { ThemeProvider } from "react-native-elements";
 
 export default class Article extends React.Component {
@@ -15,7 +15,7 @@ export default class Article extends React.Component {
     return (
       <ThemeProvider style={styles.container}>
         <Text style={styles.title}>{title}</Text>
-        <Text style={styles.url}>{url}</Text>
+        <Text style={styles.url} onPress={()=>{Linking.openURL(url)}}>{url}</Text>
         <ScrollView>
           <Text style={styles.content}>{content}</Text>
         </ScrollView>

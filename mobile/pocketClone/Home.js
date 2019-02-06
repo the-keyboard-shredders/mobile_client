@@ -75,9 +75,9 @@ export default class Home extends React.Component {
                 {!this.state.article ? (
                   <Text> Loading ..... </Text>
                 ) : (
-                  this.state.article.map((l, i) => (
+                  this.state.article.map((l) => (
                     <ListItem
-                      key={i}
+                      key={l.id}
                       title={l.title}
                       style={styles.list}
                       onPress={() =>

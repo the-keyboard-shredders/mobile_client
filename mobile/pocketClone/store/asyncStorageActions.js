@@ -13,6 +13,7 @@ export const grabFromCloudToStorage = async googleId => {
             title
             content
             url
+            id
           }
         }
       `
