@@ -22,19 +22,18 @@ export default class Home extends React.Component {
       refreshing: false
     };
     this.loadArticles = this.loadArticles.bind(this);
-    // this._onRefresh = this._onRefresh.bind(this)
+    this._onRefresh = this._onRefresh.bind(this);
   }
-  // _onRefresh = async() => {
-  //   this.setState({refreshing: true});
-  //   await this.loadArticles(this.props.navigation.getParam("googleId"))
-  //   this.setState({refreshing: false});
-  //   console.log("COMPONENT?", this.state.article)
-  // }
+
+  _onRefresh = async () => {
+    this.setState({ refreshing: true });
+    await this.loadArticles(this.props.navigation.getParam("googleId"));
+    this.setState({ refreshing: false });
+  };
 
   async loadArticles(googleId) {
     let article;
     try {
-      // throw new Error("er");
       article = await grabFromCloudToStorage(googleId);
       article = article.data.userArticles;
       this.setState({ article });
@@ -74,7 +73,7 @@ export default class Home extends React.Component {
             refreshControl={
               <RefreshControl
                 refreshing={this.state.refreshing}
-                // onRefresh={this._onRefresh}
+                onRefresh={this._onRefresh}
               />
             }
           >
