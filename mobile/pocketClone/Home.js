@@ -12,13 +12,13 @@ import {
   getAllData,
   signOut
 } from "./store/asyncStorageActions";
-import Swipeout from 'react-native-swipeout';
+// import Swipeout from "react-native-swipeout";
 
-const swipeoutBtns = [
-  {
-    text: 'Delete'
-  }
-]
+// const swipeoutBtns = [
+//   {
+//     text: "Delete"
+//   }
+// ];
 export default class Home extends React.Component {
   constructor() {
     super();
@@ -30,14 +30,12 @@ export default class Home extends React.Component {
     this.loadArticles = this.loadArticles.bind(this);
     this._onRefresh = this._onRefresh.bind(this);
   }
-  
 
   _onRefresh = async () => {
     this.setState({ refreshing: true });
     await this.loadArticles(this.props.navigation.getParam("googleId"));
     this.setState({ refreshing: false });
   };
-  
 
   async loadArticles(googleId) {
     let article;
@@ -83,22 +81,23 @@ export default class Home extends React.Component {
                 {!this.state.article ? (
                   <Text> Loading ..... </Text>
                 ) : (
-                  this.state.article.map((l) => (
-                    <Swipeout right={swipeoutBtns} key={l.id}>
-                      <ListItem
-                        key={l.id}
-                        title={l.title}
-                        style={styles.list}
-                        onPress={() =>
-                          this.props.navigation.navigate("Article", {
-                            content: l.content,
-                            title: l.title,
-                            url: l.url
-                          })
-                        }
-                        />
-                      </Swipeout>
-                    ))
+                  this.state.article.map(l => (
+                    // <Swipeout right={swipeoutBtns} key={l.id}>
+                    <ListItem
+                      key={l.id}
+                      title={l.title}
+                      style={styles.list}
+                      onPress={() =>
+                        this.props.navigation.navigate("Article", {
+                          content: l.content,
+                          title: l.title,
+                          url: l.url,
+                          id: l.id
+                        })
+                      }
+                    />
+                    // </Swipeout>
+                  ))
                 )}
               </ScrollView>
             </View>
