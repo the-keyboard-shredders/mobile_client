@@ -13,7 +13,6 @@ export default class Article extends React.Component {
     const title = navigation.getParam("title");
     const url = navigation.getParam("url");
     const id = navigation.getParam("id");
-    console.log("ARTICLEID", id);
 
     return (
       <ThemeProvider style={styles.container}>

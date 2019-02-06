@@ -61,7 +61,6 @@ export const signOut = async () => {
 
 export const deleteArticle = async id => {
   try {
-    console.log("async id", id);
     await axios.post("https://headless-capstone-1810.herokuapp.com/", {
       query: `
         mutation ($id: ID!)
