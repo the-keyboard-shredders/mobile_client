@@ -1,10 +1,11 @@
 import React from "react";
-import { StyleSheet, View, Text, Button } from "react-native";
+import { StyleSheet, View, Text, Image } from "react-native";
 import { Google } from "expo";
 import { iosClientId, androidClientId } from "./supersecret";
 import { persistGoogleId, isSignedIn } from "./store/asyncStorageActions";
+import { Button } from "react-native-elements";
 
-export default class login extends React.Component {
+export default class Login extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -14,8 +15,9 @@ export default class login extends React.Component {
   }
 
   async componentDidMount() {
-    const status = await isSignedIn();
-    if (status !== false) {
+    let status = await isSignedIn();
+    if (status) {
+      status = JSON.parse(status);
       this.setState({
         signedIn: true,
         googleId: status
@@ -29,7 +31,15 @@ export default class login extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <LoginPage signIn={this.signIn} />
+        <View style={styles.icon}>
+          <Image source={require("./saveforlater.png")} />
+          <Text style={styles.text}>Welcome To Save For Later</Text>
+        </View>
+        <Button
+          title="Sign in with Google"
+          type="outline"
+          onPress={() => this.signIn()}
+        />
       </View>
     );
   }
@@ -62,20 +72,19 @@ export default class login extends React.Component {
   };
 }
 
-const LoginPage = props => {
-  return (
-    <View>
-      <Text style={styles.header}>Sign in with Google</Text>
-      <Button title="Sign in with Google" onPress={() => props.signIn()} />
-    </View>
-  );
-};
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "#F8F8FF",
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "space-evenly"
+  },
+  icon: {
+    alignItems: "center"
+  },
+  text: {
+    paddingTop: 20,
+    fontSize: 25,
+    color: "#191970"
   }
 });

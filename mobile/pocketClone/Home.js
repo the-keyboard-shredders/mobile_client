@@ -1,5 +1,11 @@
 import React from "react";
-import { StyleSheet, Text, View, ScrollView } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  ScrollView,
+  RefreshControl
+} from "react-native";
 import { ThemeProvider, ListItem, Button } from "react-native-elements";
 import {
   grabFromCloudToStorage,
@@ -10,65 +16,121 @@ import {
 export default class Home extends React.Component {
   constructor() {
     super();
-    this.state = {};
+    this.state = {
+      article: [],
+      error: false,
+      refreshing: false
+    };
+    this.loadArticles = this.loadArticles.bind(this);
+    this._onRefresh = this._onRefresh.bind(this);
+  }
+
+  _onRefresh = async () => {
+    this.setState({ refreshing: true });
+    await this.loadArticles(this.props.navigation.getParam("googleId"));
+    this.setState({ refreshing: false });
+  };
+
+  async loadArticles(googleId) {
+    let article;
+    try {
+      article = await grabFromCloudToStorage(googleId);
+      article = article.data.userArticles;
+      this.setState({ article });
+    } catch (err) {
+      try {
+        article = await getAllData(googleId);
+        if (article) {
+          article = JSON.parse(article).data.userArticles;
+        }
+        this.setState({ article });
+      } catch (err) {
+        this.setState({ error: true });
+        console.log(err);
+      }
+    }
   }
 
   async componentDidMount() {
-    const googleId = this.props.navigation.getParam("googleId");
-    await grabFromCloudToStorage(googleId);
-    const response = await getAllData();
-    if (response !== "none") {
-      const articles = JSON.parse(response).data.userArticles;
-      this.setState({ articles });
-    }
+    await this.loadArticles(this.props.navigation.getParam("googleId"));
   }
 
   render() {
     return (
-      <ThemeProvider>
+      <ThemeProvider style={styles.container}>
+        <Text style={styles.title}>Titles List</Text>
+        {this.state.error ? (
+          <Text>You have no articles!</Text>
+        ) : (
+          <ScrollView
+            refreshControl={
+              <RefreshControl
+                refreshing={this.state.refreshing}
+                onRefresh={this._onRefresh}
+              />
+            }
+          >
+            <View>
+              <ScrollView scrollEventThrottle={16}>
+                {!this.state.article ? (
+                  <Text> Loading ..... </Text>
+                ) : (
+                  this.state.article.map((l, i) => (
+                    <ListItem
+                      key={i}
+                      title={l.title}
+                      style={styles.list}
+                      onPress={() =>
+                        this.props.navigation.navigate("Article", {
+                          content: l.content,
+                          title: l.title,
+                          url: l.url
+                        })
+                      }
+                    />
+                  ))
+                )}
+              </ScrollView>
+            </View>
+          </ScrollView>
+        )}
         <Button
           title="Logout"
+          type="outline"
+          style={styles.button}
+          containerStyle={{ borderColor: "black" }}
+          wrapperStyle={{ borderColor: "black" }}
           onPress={() => {
             signOut();
-            this.props.navigation.navigate("login");
+            this.props.navigation.navigate("Login");
           }}
         />
-        <Text>Titles List</Text>
-        <ScrollView>
-          <View>
-            {!this.state.articles ? (
-              <Text> Loading ..... </Text>
-            ) : (
-              this.state.articles.map((l, i) => (
-                <ListItem
-                  key={i}
-                  title={l.title}
-                  onPress={() =>
-                    this.props.navigation.navigate("ArticlesList", {
-                      content: l.content,
-                      title: l.title
-                    })
-                  }
-                />
-              ))
-            )}
-          </View>
-        </ScrollView>
       </ThemeProvider>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  subtitleView: {
-    flexDirection: "row",
-    paddingLeft: 10,
-    paddingTop: 5
-  },
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "#F8F8FF",
     alignItems: "center",
     justifyContent: "center"
+  },
+  title: {
+    textAlign: "center",
+    color: "#191970",
+    fontSize: 20,
+    fontWeight: "bold",
+    padding: 2,
+    marginBottom: 15,
+    marginTop: 20
+  },
+  button: {
+    paddingBottom: 20
+  },
+  list: {
+    paddingLeft: 5,
+    paddingRight: 5
   }
 });
