@@ -1,8 +1,9 @@
 import React from "react";
-import { StyleSheet, View, Text, Button, Image } from "react-native";
+import { StyleSheet, View, Text, Image } from "react-native";
 import { Google } from "expo";
 import { iosClientId, androidClientId } from "./supersecret";
 import { persistGoogleId, isSignedIn } from "./store/asyncStorageActions";
+import { Button } from "react-native-elements";
 
 export default class Login extends React.Component {
   constructor(props) {
@@ -30,9 +31,15 @@ export default class Login extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <Image source={require("./saveforlater.png")} />
-        <Text>Welcome To Save For Later</Text>
-        <Button title="Sign in with Google" onPress={() => this.signIn()} />
+        <View style={styles.icon}>
+          <Image source={require("./saveforlater.png")} />
+          <Text style={styles.text}>Welcome To Save For Later</Text>
+        </View>
+        <Button
+          title="Sign in with Google"
+          type="outline"
+          onPress={() => this.signIn()}
+        />
       </View>
     );
   }
@@ -68,8 +75,16 @@ export default class Login extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "#F8F8FF",
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "space-evenly"
+  },
+  icon: {
+    alignItems: "center"
+  },
+  text: {
+    paddingTop: 20,
+    fontSize: 25,
+    color: "#191970"
   }
 });
