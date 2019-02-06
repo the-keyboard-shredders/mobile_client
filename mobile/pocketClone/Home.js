@@ -1,23 +1,27 @@
 import React from "react";
-import { StyleSheet, Text, View, ScrollView, RefreshControl } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  ScrollView,
+  RefreshControl
+} from "react-native";
 import { ThemeProvider, ListItem, Button } from "react-native-elements";
 import {
   grabFromCloudToStorage,
   getAllData,
-  signOut,
-
+  signOut
 } from "./store/asyncStorageActions";
 
 export default class Home extends React.Component {
   constructor() {
     super();
     this.state = {
-      article : [],
+      article: [],
       error: false,
-      refreshing: false,
-  
+      refreshing: false
     };
-    this.loadArticles = this.loadArticles.bind(this)
+    this.loadArticles = this.loadArticles.bind(this);
     // this._onRefresh = this._onRefresh.bind(this)
   }
   // _onRefresh = async() => {
@@ -27,42 +31,30 @@ export default class Home extends React.Component {
   //   console.log("COMPONENT?", this.state.article)
   // }
 
-  async loadArticles(googleId){
+  async loadArticles(googleId) {
     let article;
-      try{
-        // throw new Error("er")
-        article = await grabFromCloudToStorage(googleId)
-        // console.log('thisstateart',article)
-        article = article.data.userArticles
-        this.setState({article})
-        console.log("thisstateart", typeof this.state.article)
-      }
-      catch (err){
-        try{
-          article = await getAllData(googleId)
-          if(article){
-          article = article.data.userArticles}
-          console.log('GETALLDATA',article)
-          this.setState({article})
-        }catch(err){
-          this.setState({error:true})
-          console.log(err)
+    try {
+      // throw new Error("er");
+      article = await grabFromCloudToStorage(googleId);
+      article = article.data.userArticles;
+      this.setState({ article });
+    } catch (err) {
+      try {
+        article = await getAllData(googleId);
+        if (article) {
+          article = JSON.parse(article).data.userArticles;
         }
+        this.setState({ article });
+      } catch (err) {
+        this.setState({ error: true });
+        console.log(err);
       }
     }
-
-
-  async componentDidMount() {
-    // const googleId = this.props.navigation.getParam("googleId");
-    // await grabFromCloudToStorage(googleId);
-    // const response = await getAllData();
-    // if (response !== "none") {
-    //   const articles = JSON.parse(response).data.userArticles;
-    //   this.setState({ articles });
-    // }
-    await this.loadArticles(this.props.navigation.getParam("googleId"))
   }
 
+  async componentDidMount() {
+    await this.loadArticles(this.props.navigation.getParam("googleId"));
+  }
 
   render() {
     return (
@@ -75,34 +67,39 @@ export default class Home extends React.Component {
           }}
         />
         <Text>Titles List</Text>
-        {this.state.error? (<Text>You have no articles!</Text>) :(
+        {this.state.error ? (
+          <Text>You have no articles!</Text>
+        ) : (
           <ScrollView
-                refreshControl={
-                  <RefreshControl
-                  refreshing={this.state.refreshing}
-                  // onRefresh={this._onRefresh}
-                  />} > 
-          <View>
-          <ScrollView scrollEventThrottle={16}>
-            {!this.state.article ? (
-              <Text> Loading ..... </Text>
-              ) : (
-                this.state.article.map((l, i) => (
-                  <ListItem
-                  key={i}
-                  title={l.title}
-                  onPress={() =>
-                    this.props.navigation.navigate("ArticlesList", {
-                      content: l.content,
-                      title: l.title
-                    })
-                  }
-                  />
+            refreshControl={
+              <RefreshControl
+                refreshing={this.state.refreshing}
+                // onRefresh={this._onRefresh}
+              />
+            }
+          >
+            <View>
+              <ScrollView scrollEventThrottle={16}>
+                {!this.state.article ? (
+                  <Text> Loading ..... </Text>
+                ) : (
+                  this.state.article.map((l, i) => (
+                    <ListItem
+                      key={i}
+                      title={l.title}
+                      onPress={() =>
+                        this.props.navigation.navigate("ArticlesList", {
+                          content: l.content,
+                          title: l.title
+                        })
+                      }
+                    />
                   ))
-                  )}
-            </ScrollView>
+                )}
+              </ScrollView>
             </View>
-          </ScrollView>)}
+          </ScrollView>
+        )}
       </ThemeProvider>
     );
   }

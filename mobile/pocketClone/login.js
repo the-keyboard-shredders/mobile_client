@@ -15,6 +15,7 @@ export default class login extends React.Component {
 
   async componentDidMount() {
     const status = await isSignedIn();
+
     if (status !== false) {
       this.setState({
         signedIn: true,
