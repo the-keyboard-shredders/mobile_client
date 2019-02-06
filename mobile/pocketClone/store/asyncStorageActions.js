@@ -13,6 +13,7 @@ export const grabFromCloudToStorage = async googleId => {
             title
             content
             url
+            id
           }
         }
       `
@@ -55,5 +56,26 @@ export const signOut = async () => {
     await AsyncStorage.removeItem("googleId");
   } catch (error) {
     console.log(error);
+  }
+};
+
+export const deleteArticle = async id => {
+  try {
+    await axios.post("https://headless-capstone-1810.herokuapp.com/", {
+      query: `
+        mutation ($id: ID!)
+          {
+            deleteArticle (id: $id) 
+            { 
+              id
+            }
+          }
+      `,
+      variables: {
+        id
+      }
+    });
+  } catch (err) {
+    console.log(err);
   }
 };
