@@ -1,8 +1,8 @@
 import React from "react";
 import { StyleSheet, Text, ScrollView } from "react-native";
-import { Button, ThemeProvider } from "react-native-elements";
+import { ThemeProvider } from "react-native-elements";
 
-export default class ArticlesList extends React.Component {
+export default class Article extends React.Component {
   constructor() {
     super();
   }
@@ -13,10 +13,6 @@ export default class ArticlesList extends React.Component {
 
     return (
       <ThemeProvider>
-        <Button
-          title="Go Home"
-          onPress={() => this.props.navigation.navigate("Home")}
-        />
         <Text>{title}</Text>
         <ScrollView>
           <Text>{content}</Text>

@@ -62,7 +62,7 @@ export default class Home extends React.Component {
           title="Logout"
           onPress={() => {
             signOut();
-            this.props.navigation.navigate("login");
+            this.props.navigation.navigate("Login");
           }}
         />
         <Text>Titles List</Text>
@@ -87,7 +87,7 @@ export default class Home extends React.Component {
                       key={i}
                       title={l.title}
                       onPress={() =>
-                        this.props.navigation.navigate("ArticlesList", {
+                        this.props.navigation.navigate("Article", {
                           content: l.content,
                           title: l.title
                         })

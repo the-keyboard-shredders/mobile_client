@@ -1,12 +1,19 @@
 import { createStackNavigator, createAppContainer } from "react-navigation";
 import Home from "./Home";
-import ArticlesList from "./ArticlesList";
-import login from "./login";
+import Article from "./Article";
+import Login from "./Login";
 
 const AppNav = createStackNavigator({
-  login: { screen: login },
-  Home: { screen: Home },
-  ArticlesList: { screen: ArticlesList }
+  Login: { screen: Login },
+  Home: {
+    screen: Home,
+    navigationOptions: {
+      title: "Home",
+      headerLeft: null,
+      gesturesEnabled: false
+    }
+  },
+  Article: { screen: Article }
 });
 
 const AppNavigator = createAppContainer(AppNav);

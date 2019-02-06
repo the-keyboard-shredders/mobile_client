@@ -4,7 +4,7 @@ import { Google } from "expo";
 import { iosClientId, androidClientId } from "./supersecret";
 import { persistGoogleId, isSignedIn } from "./store/asyncStorageActions";
 
-export default class login extends React.Component {
+export default class Login extends React.Component {
   constructor(props) {
     super(props);
     this.state = {

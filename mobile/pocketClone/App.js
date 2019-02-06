@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, View, Text, AsyncStorage } from "react-native";
+import { StyleSheet } from "react-native";
 import AppNavigator from "./AppNavigator";
 
 export default class App extends React.Component {
