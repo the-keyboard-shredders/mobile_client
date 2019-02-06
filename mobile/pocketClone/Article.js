@@ -8,14 +8,16 @@ export default class Article extends React.Component {
   }
   render() {
     const { navigation } = this.props;
-    const content = navigation.getParam("content", "Content belongs here");
-    const title = navigation.getParam("title", "title belongs here");
+    const content = navigation.getParam("content");
+    const title = navigation.getParam("title");
+    const url = navigation.getParam("url");
 
     return (
-      <ThemeProvider>
-        <Text>{title}</Text>
+      <ThemeProvider style={styles.container}>
+        <Text style={styles.title}>{title}</Text>
+        <Text style={styles.url}>{url}</Text>
         <ScrollView>
-          <Text>{content}</Text>
+          <Text style={styles.content}>{content}</Text>
         </ScrollView>
       </ThemeProvider>
     );
@@ -24,8 +26,29 @@ export default class Article extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "#F8F8FF",
     alignItems: "center",
     justifyContent: "center"
+  },
+  title: {
+    textAlign: "center",
+    color: "black",
+    fontSize: 13,
+    fontWeight: "bold",
+    paddingLeft: 9,
+    paddingRight: 9,
+    marginBottom: 15,
+    marginTop: 20
+  },
+  content: {
+    paddingLeft: 9,
+    paddingRight: 9,
+    marginTop: 20
+  },
+  url: {
+    paddingLeft: 9,
+    paddingRight: 9,
+    color: "blue",
+    marginBottom: 15
   }
 });
